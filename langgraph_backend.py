@@ -8,4 +8,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-llm=ChatGoogleGenerativeAI
+llm=ChatGoogleGenerativeAI()
+
+
+class ChatState(TypedDict):
+    messages:Annotated[list[BaseMessage], add_messages]
+
