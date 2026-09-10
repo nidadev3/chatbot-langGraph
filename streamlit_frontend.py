@@ -14,3 +14,4 @@ for message in st.session_state['message_history']:
         st.text(message['content'])
 
 
+user_input = st.chat_input('Type here')
