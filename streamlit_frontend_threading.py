@@ -9,6 +9,12 @@ import uuid
 def generate_thread_id():
     thread_id=uuid.uuid4()
     return thread_id
+# reset chat
+def reset_chat():
+    thread_id=generate_thread_id()
+    st.session_state['thread_id'] = thread_id
+    add_thread(st.session_state['thread_id'])
+    st.session_state['message_history'] = []
 
 
 def add_thread (thread_id):
@@ -26,5 +32,5 @@ st.sidebar.button('New Chat')
 st.sidebar.header('My Conversations')
 
 for thread_id in st.session_state['chat_threads'] [::-1]:
-    if st.sidebar.button(str[thread_id]):
+    if st.sidebar.button(str(thread_id)):
         st.session_state['thread-id']=thread_id
