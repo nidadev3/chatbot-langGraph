@@ -8,7 +8,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-llm=ChatGoogleGenerativeAI(model="gemini-3-flash-preview")
+llm = ChatGoogleGenerativeAI(
+    model="gemini-3.5-flash"
+)
 
 
 class ChatState(TypedDict):
