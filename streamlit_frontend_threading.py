@@ -11,6 +11,9 @@ def generate_thread_id():
     return thread_id
 
 
+def add_thread (thread_id):
+    if thread_id not in st.session_state['chat_thread']:
+        st.session_state['chat_threads'].append(thread_id)
 
 
 
@@ -19,3 +22,9 @@ def generate_thread_id():
 st.sidebar.title('LangGraph Chatbot')
 
 st.sidebar.button('New Chat')
+
+st.sidebar.header('My Conversations')
+
+for thread_id in st.session_state['chat_threads'] [::-1]:
+    if st.sidebar.button(str[thread_id]):
+        st.session_state['thread-id']=thread_id
