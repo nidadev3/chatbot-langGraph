@@ -1,6 +1,7 @@
 import streamlit as st
 from langgraph_backend import chatbot
 from langchain_core.messages import HumanMessage
+import os
 
 # st.session_state -> dict -> 
 CONFIG = {'configurable': {'thread_id': 'thread-1'}}
@@ -30,3 +31,8 @@ if user_input:
     st.session_state['message_history'].append({'role': 'assistant', 'content': ai_message})
     with st.chat_message('assistant'):
         st.text(ai_message)
+
+
+print("Current working directory:", os.getcwd())
+print("Database absolute path:", os.path.abspath("chatbot.db"))
+print("Database exists:", os.path.exists("chatbot.db"))
