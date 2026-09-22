@@ -1,18 +1,23 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 from langgraph.graph import StateGraph, START, END
 from typing import TypedDict, Annotated
 from langchain_core.messages import BaseMessage 
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph.message import add_messages
-from dotenv import load_dotenv
 import sqlite3
-load_dotenv()
+
+print("Tracing:", os.getenv("LANGSMITH_TRACING") or os.getenv("LANGCHAIN_TRACING_V2"))
+print("Project:", os.getenv("LANGSMITH_PROJECT") or os.getenv("LANGCHAIN_PROJECT"))
+print("Endpoint:", os.getenv("LANGSMITH_ENDPOINT") or os.getenv("LANGCHAIN_ENDPOINT"))
+print("API Key exists:", bool(os.getenv("LANGSMITH_API_KEY") or os.getenv("LANGCHAIN_API_KEY")))
 
 llm = ChatGoogleGenerativeAI(
-    model="gemini-3.5-flash"
+    model="gemini-3.1-flash-lite"
 )
-
-
 class ChatState(TypedDict):
     messages:Annotated[list[BaseMessage], add_messages]
 
