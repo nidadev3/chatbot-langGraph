@@ -85,3 +85,8 @@ def chat_node(state:ChatState):
     response=llm_with_tools.invoke(messages)
     return {"messages":[response]}
 tool_node=ToolNode(tools)
+
+
+#checkpointer
+conn = sqlite3.connect(database="chatbot.db", check_same_thread=False)
+checkpointer = SqliteSaver(conn=conn)
