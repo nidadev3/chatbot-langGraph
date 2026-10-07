@@ -68,3 +68,20 @@ def get_stock_price(symbol:str)->dict:
 
 tools=[search_tool, get_stock_price, calculator]
 llm_with_tools=llm.bind_tools(tools)
+
+
+
+#State
+class ChatState(TypedDict):
+    messages: Annotated[list[BaseMessage], add_messages]
+
+# Nodes
+def chat_node(state:ChatState):
+    """
+    LLM node that may answer or request a tool call.
+    
+    """
+    messages=state["messages"]
+    response=llm_with_tools.invoke(messages)
+    return {"messages":[response]}
+tool_node=ToolNode(tools)
