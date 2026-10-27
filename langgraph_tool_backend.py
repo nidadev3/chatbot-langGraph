@@ -9,7 +9,6 @@ from langgraph.prebuilt import ToolNode, tools_condition
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.tools import tool
 from dotenv import load_dotenv
-import sqlite3
 import requests
 import os
 
@@ -90,6 +89,39 @@ tool_node=ToolNode(tools)
 #checkpointer
 conn = sqlite3.connect(database="chatbot.db", check_same_thread=False)
 checkpointer = SqliteSaver(conn=conn)
+
+# Conversation Titles
+conn.execute("""
+    CREATE TABLE IF NOT EXISTS chat_titles (
+        thread_id TEXT PRIMARY KEY,
+        title TEXT
+    )
+""")
+conn.commit()
+
+
+# Save Thread Title
+def save_thread_title(thread_id, title):
+    conn.execute(
+        "INSERT OR REPLACE INTO chat_titles (thread_id, title) VALUES (?, ?)",
+        (str(thread_id), title)
+    )
+    conn.commit()
+
+
+# Get Thread Title
+def get_thread_title(thread_id):
+    cursor = conn.execute(
+        "SELECT title FROM chat_titles WHERE thread_id = ?",
+        (str(thread_id),)
+    )
+
+    result = cursor.fetchone()
+
+    if result:
+        return result[0]
+
+    return "New Chat"
 
 # Graph
 graph = StateGraph(ChatState)
